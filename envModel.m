@@ -84,7 +84,7 @@ animationSprayer(sprayer);
                       
 %% calculation
 
-for i = 1:30
+for i = 1:3
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
 end
 
