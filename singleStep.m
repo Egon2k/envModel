@@ -2,8 +2,6 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     %% helper
     deltaS = control.tractor.frontWheelV * sim.dt;
     
-    globalSteeringAngle = control.tractor.steeringAngle + tractor.psi;
-    
     dPsiTractor = asin(deltaS * sin(pi - control.tractor.steeringAngle) / param.tractor.wheelbase);
     
     dpsiSprayer = asin(param.tractor.hitchLength * sin(dPsiTractor) / param.sprayer.l2);
@@ -22,10 +20,10 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     
     %front
     tractor.frontX = tractor.frontX + ...
-                     deltaS * cos(globalSteeringAngle);
+                     deltaS * cos(control.tractor.steeringAngle + tractor.psi);
                  
     tractor.frontY = tractor.frontY + ...
-                     deltaS * sin(globalSteeringAngle);
+                     deltaS * sin(control.tractor.steeringAngle + tractor.psi);
     
     % rear
     tractor.rearX = tractor.frontX - ...
@@ -59,20 +57,20 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     
     sprayer.hitchY = tractor.hitchY;
 
+    sprayer.kinkX = sprayer.hitchX - ...
+                    param.sprayer.l2 * ...
+                    cos(sprayer.psi);
+                      
+    sprayer.kinkY = sprayer.hitchY - ...
+                    param.sprayer.l2 * ...
+                    sin(sprayer.psi);
+
+                
     sprayer.axisX = sprayer.hitchX - ...
                     x * cos(sprayer.psi);
 
     sprayer.axisY = sprayer.hitchY - ...
                     x * sin(sprayer.psi);
-    
-%     sprayer.kinkX = sprayer.hitchX - ...
-%                     param.sprayer.l2 * ...
-%                     cos(sprayer.psi);
-%                       
-%     sprayer.kinkY = sprayer.hitchY - ...
-%                     param.sprayer.l2 * ...
-%                     sin(sprayer.psi);
-
                 
     %% plot
 

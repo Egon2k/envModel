@@ -10,10 +10,12 @@ param.tractor.hitchLength       = 0.72;             % [m]
 param.tractor.psiInit           = 0 * pi/180;
 
 param.sprayer.l2                = 5.5;              % {m]
-param.sprayer.l3                = 0;                % {m]
+param.sprayer.l3                = 3;                % {m]
 
 param.sprayer.alphaInit         = 0 * pi/180;
 param.sprayer.betaInit          = 0 * pi/180;
+
+param.sprayer.psiInit           = 0 * pi/180;
 
 %% control
 
@@ -58,19 +60,19 @@ sprayer.hitchY          = tractor.hitchY;
 
 sprayer.kinkX           = sprayer.hitchX - ...
                           param.sprayer.l2 * ...
-                          cos(param.sprayer.alphaInit);
+                          cos(param.sprayer.alphaInit + param.sprayer.psiInit);
                       
 sprayer.kinkY           = sprayer.hitchY - ...
                           param.sprayer.l2 * ...
-                          sin(param.sprayer.alphaInit);
+                          sin(param.sprayer.alphaInit + param.sprayer.psiInit);
 
 sprayer.axisX           = sprayer.kinkX - ...
                           param.sprayer.l3 * ...
-                          cos(param.sprayer.betaInit);
+                          cos(param.sprayer.betaInit + param.sprayer.psiInit);
 
 sprayer.axisY           = sprayer.kinkY - ...
                           param.sprayer.l3 * ...
-                          sin(param.sprayer.betaInit);
+                          sin(param.sprayer.betaInit + param.sprayer.psiInit);
                       
 sprayer.psi             = tan(...
                           (sprayer.hitchY - sprayer.kinkY)/...
