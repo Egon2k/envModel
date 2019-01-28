@@ -21,11 +21,10 @@ param.sprayer.psiInit           = 0 * pi/180;
 
 control.tractor.steeringAngle   = 20 * pi/180;
 control.tractor.frontWheelV     = 10;                % [m/s]
-control.sprayer.alpha           = 0 *  pi/180;
 control.sprayer.beta            = 0 *  pi/180;
 
 %% simulation
-sim.dt                          = 0.5;
+sim.dt                          = 0.1;
 
 %% init
 
@@ -78,13 +77,15 @@ sprayer.psi             = tan(...
                           (sprayer.hitchY - sprayer.kinkY)/...
                           (sprayer.hitchX - sprayer.kinkX));
                       
+sprayer.alpha           = param.sprayer.alphaInit;
+                      
 animationInit();
 animationTractor(tractor);
 animationSprayer(sprayer);
                       
 %% calculation
 
-for i = 1:3
+for i = 1:2
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
 end
 
