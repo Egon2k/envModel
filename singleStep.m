@@ -43,7 +43,7 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     diagSprayer = sqrt(param.sprayer.l2^2 + param.sprayer.l3^2 ...
                        - 2 * param.sprayer.l2 * param.sprayer.l3 ...
                        * cos(pi - control.sprayer.beta));
-                   
+    
     tau1 =  asin(param.sprayer.l3 * sin(pi - control.sprayer.beta) / diagSprayer);
     tau2 =  asin(param.sprayer.l2 * sin(pi - control.sprayer.beta) / diagSprayer);
                    
@@ -86,14 +86,14 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     sprayer.hitchX = tractor.hitchX;
     sprayer.hitchY = tractor.hitchY;
     
-    diagAngle = tan((sprayer.axisX - sprayer.hitchX) / ...
-                    (sprayer.axisY - sprayer.hitchY));
+    diagAngle = tan((sprayer.axisY - sprayer.hitchY) / ...
+                    (sprayer.axisX - sprayer.hitchX));
         
-    sprayer.kinkX = sprayer.kinkX + param.sprayer.l2 * sin(diagAngle - tau1);
-    sprayer.kinkY = sprayer.kinkY + param.sprayer.l2 * cos(diagAngle - tau1);
+    sprayer.kinkX = sprayer.hitchX - param.sprayer.l2 * cos(diagAngle + tau1);
+    sprayer.kinkY = sprayer.hitchY - param.sprayer.l2 * sin(diagAngle + tau1);
     
-    sprayer.psi = tan((sprayer.axisX - sprayer.kinkX) / ...
-                      (sprayer.axisY - sprayer.kinkY));
+    sprayer.psi = tan((sprayer.axisY - sprayer.kinkY) / ...
+                      (sprayer.axisX - sprayer.kinkX));
         
     %% plot
 
