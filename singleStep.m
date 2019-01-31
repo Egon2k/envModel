@@ -44,8 +44,8 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
                        - 2 * param.sprayer.l2 * param.sprayer.l3 ...
                        * cos(pi - control.sprayer.beta));
     
-    tau1 =  asin(param.sprayer.l3 * sin(pi - control.sprayer.beta) / diagSprayer);
-    tau2 =  asin(param.sprayer.l2 * sin(pi - control.sprayer.beta) / diagSprayer);
+    tau1 =  epsCheck(asin(param.sprayer.l3 * sin(pi - control.sprayer.beta) / diagSprayer));
+    tau2 =  epsCheck(asin(param.sprayer.l2 * sin(pi - control.sprayer.beta) / diagSprayer));
                    
     % straight through kink (kinkX, kinkX) and axis (axisX, axisY)
     if (sprayer.kinkX == sprayer.axisX && sprayer.kinkY == sprayer.axisY)
@@ -75,12 +75,20 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     
     % cycle with hitch_new as center (hitchX, hitchY) and radius diagSprayer
     % formula: (x - x0)^2 + (y - y0)^2 = r^2
-    if 0
-        sprayer.axisX = (tractor.hitchX + (- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2) - c*m + tractor.hitchY*m)/(m^2 + 1);
-        sprayer.axisY = (c + tractor.hitchX*m + tractor.hitchY*m^2 + m*(- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2))/(m^2 + 1);
+    x(1) = (tractor.hitchX + (- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2) - c*m + tractor.hitchY*m)/(m^2 + 1);
+    x(2) = (tractor.hitchX - (- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2) - c*m + tractor.hitchY*m)/(m^2 + 1);
+    
+    y(1) = (c + tractor.hitchX*m + tractor.hitchY*m^2 + m*(- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2))/(m^2 + 1);
+    y(2) = (c + tractor.hitchX*m + tractor.hitchY*m^2 - m*(- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2))/(m^2 + 1);
+    
+    if (sqrt((sprayer.axisX - x(1)) + (sprayer.axisY - y(1))^2) > ...
+        sqrt((sprayer.axisX - x(2)) + (sprayer.axisY - y(2))^2))
+        
+        sprayer.axisX = x(1);
+        sprayer.axisY = y(1);
     else
-        sprayer.axisX = (tractor.hitchX - (- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2) - c*m + tractor.hitchY*m)/(m^2 + 1);
-        sprayer.axisY = (c + tractor.hitchX*m + tractor.hitchY*m^2 - m*(- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2))/(m^2 + 1);
+        sprayer.axisX = x(2);
+        sprayer.axisY = y(2);
     end
     
     sprayer.hitchX = tractor.hitchX;
