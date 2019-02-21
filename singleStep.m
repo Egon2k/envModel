@@ -49,17 +49,14 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
 
     % straight through kink (kinkX, kinkX) and axis (axisX, axisY)
     if (param.sprayer.l3 == 0)
-        % special case, when l3 = 0
+        % l3 == 0 (wheelsteer)
+        A = [sprayer.kinkX 1; (sprayer.axisX+cos(sprayer.psi)) 1];
+        b = [sprayer.kinkY  ; (sprayer.axisY+sin(sprayer.psi))  ];
 
-        % calculate slope m from beta
-        betaGlobal = sprayer.psi;% + control.sprayer.alpha + control.sprayer.beta;
+        result = A\b;       % solving the linear system
 
-        if (mod(betaGlobal,pi) > pi/2)
-        	m = mod(betaGlobal,pi/2)/(pi/2);
-        else
-            m = -mod(betaGlobal,pi/2)/(pi/2);
-        end
-        c = sprayer.axisY;
+        m = result(1);      % slope
+        c = result(2);      % y-intercept
     else
         % l3 > 0
         A = [sprayer.kinkX 1; sprayer.axisX 1];
@@ -100,8 +97,12 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     sprayer.kinkX = sprayer.hitchX - param.sprayer.l2 * cos(diagAngle - tau1);
     sprayer.kinkY = sprayer.hitchY - param.sprayer.l2 * sin(diagAngle - tau1);
 
-    sprayer.psi = atan((sprayer.axisY - sprayer.kinkY) / ...
+    if (param.sprayer.l3 == 0)
+        sprayer.psi = diagAngle;
+    else
+        sprayer.psi = atan((sprayer.axisY - sprayer.kinkY) / ...
                        (sprayer.axisX - sprayer.kinkX));
+    end
 
     sprayer.alpha = tractor.psi - sprayer.psi;
 

@@ -2,6 +2,12 @@ clear all;
 close all;
 clc
 
+%% control
+
+control.tractor.steeringAngle   = 20 * pi/180;
+control.tractor.frontWheelV     = 10;               % [m/s]
+control.sprayer.beta            = 0 *  pi/180;
+
 %% parameter
 
 param.tractor.steeringAngleInit = 0 * pi/180;
@@ -10,18 +16,13 @@ param.tractor.hitchLength       = 0.72;             % [m]
 param.tractor.psiInit           = 0 * pi/180;
 
 param.sprayer.l2                = 5.5;              % {m]
-param.sprayer.l3                = 2;                % {m]
+param.sprayer.l3                = 0;                % {m]
 
-param.sprayer.alphaInit         = -10 * pi/180;     % angle between tractor and sprayer
-param.sprayer.betaInit          = -30 * pi/180;     % kink angle
+param.sprayer.alphaInit         = -10 * pi/180;         % angle between tractor and sprayer
+param.sprayer.betaInit          = control.sprayer.beta; % kink angle
 
 param.sprayer.psiInit           = 0 * pi/180;
 
-%% control
-
-control.tractor.steeringAngle   = 20 * pi/180;
-control.tractor.frontWheelV     = 10;               % [m/s]
-control.sprayer.beta            = -30 *  pi/180;
 
 %% simulation
 sim.dt                          = 0.5;              % sampling rate in [s]
