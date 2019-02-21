@@ -102,7 +102,7 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
 
     sprayer.psi = atan((sprayer.axisY - sprayer.kinkY) / ...
                        (sprayer.axisX - sprayer.kinkX));
-                   
+
     sprayer.alpha = tractor.psi - sprayer.psi;
 
     %% plot

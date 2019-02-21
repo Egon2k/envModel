@@ -47,21 +47,21 @@ tractor.hitchX          = tractor.rearX - ...
 tractor.hitchY          = tractor.rearY - ...
                           param.tractor.hitchLength * ...
                           sin(param.tractor.psiInit);
-                      
+
 tractor.psi             = tan(...
                           (tractor.frontY - tractor.rearY)/...
                           (tractor.frontX - tractor.rearX));
-                          
+
 
 % sprayer
 sprayer.hitchX          = tractor.hitchX;
-    
-sprayer.hitchY          = tractor.hitchY;  
+
+sprayer.hitchY          = tractor.hitchY;
 
 sprayer.kinkX           = sprayer.hitchX - ...
                           param.sprayer.l2 * ...
                           cos(param.sprayer.psiInit + param.sprayer.alphaInit);
-                      
+
 sprayer.kinkY           = sprayer.hitchY - ...
                           param.sprayer.l2 * ...
                           sin(param.sprayer.psiInit + param.sprayer.alphaInit);
@@ -73,17 +73,17 @@ sprayer.axisX           = sprayer.kinkX - ...
 sprayer.axisY           = sprayer.kinkY - ...
                           param.sprayer.l3 * ...
                           sin(param.sprayer.psiInit + param.sprayer.alphaInit + param.sprayer.betaInit);
-                      
+
 sprayer.psi             = tan(...
                           (sprayer.hitchY - sprayer.kinkY)/...
                           (sprayer.hitchX - sprayer.kinkX));
-                      
+
 sprayer.alpha           = param.sprayer.alphaInit;
-                      
+
 animationInit();
 animationTractor(tractor);
 animationSprayer(sprayer);
-                      
+
 %% calculation
 
 for i = 1:(sim.T/sim.dt)
@@ -91,12 +91,12 @@ for i = 1:(sim.T/sim.dt)
 end
 
 
-                      
-                      
-                      
-                      
-                      
-                      
-                      
+
+
+
+
+
+
+
 
 
