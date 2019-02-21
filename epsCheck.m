@@ -1,5 +1,5 @@
 function [ out ] = epsCheck( in )
-    if in <= eps
+    if abs(in) <= eps
         out = 0;
     else
         out = in;
