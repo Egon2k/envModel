@@ -10,21 +10,22 @@ param.tractor.hitchLength       = 0.72;             % [m]
 param.tractor.psiInit           = 0 * pi/180;
 
 param.sprayer.l2                = 5.5;              % {m]
-param.sprayer.l3                = 3;                % {m]
+param.sprayer.l3                = 2;                % {m]
 
-param.sprayer.alphaInit         = 0 * pi/180;
-param.sprayer.betaInit          = -10 * pi/180;
+param.sprayer.alphaInit         = -10 * pi/180;     % angle between tractor and sprayer
+param.sprayer.betaInit          = -30 * pi/180;     % kink angle
 
 param.sprayer.psiInit           = 0 * pi/180;
 
 %% control
 
 control.tractor.steeringAngle   = 20 * pi/180;
-control.tractor.frontWheelV     = 10;                % [m/s]
-control.sprayer.beta            = 10 *  pi/180;
+control.tractor.frontWheelV     = 10;               % [m/s]
+control.sprayer.beta            = -30 *  pi/180;
 
 %% simulation
-sim.dt                          = 0.5;
+sim.dt                          = 0.5;              % sampling rate in [s]
+sim.T                           = 3;                % simulated time in [s]
 
 %% init
 
@@ -59,19 +60,19 @@ sprayer.hitchY          = tractor.hitchY;
 
 sprayer.kinkX           = sprayer.hitchX - ...
                           param.sprayer.l2 * ...
-                          cos(param.sprayer.alphaInit + param.sprayer.psiInit);
+                          cos(param.sprayer.psiInit + param.sprayer.alphaInit);
                       
 sprayer.kinkY           = sprayer.hitchY - ...
                           param.sprayer.l2 * ...
-                          sin(param.sprayer.alphaInit + param.sprayer.psiInit);
+                          sin(param.sprayer.psiInit + param.sprayer.alphaInit);
 
 sprayer.axisX           = sprayer.kinkX - ...
                           param.sprayer.l3 * ...
-                          cos(param.sprayer.betaInit + param.sprayer.psiInit);
+                          cos(param.sprayer.psiInit + param.sprayer.alphaInit + param.sprayer.betaInit);
 
 sprayer.axisY           = sprayer.kinkY - ...
                           param.sprayer.l3 * ...
-                          sin(param.sprayer.betaInit + param.sprayer.psiInit);
+                          sin(param.sprayer.psiInit + param.sprayer.alphaInit + param.sprayer.betaInit);
                       
 sprayer.psi             = tan(...
                           (sprayer.hitchY - sprayer.kinkY)/...
@@ -85,7 +86,7 @@ animationSprayer(sprayer);
                       
 %% calculation
 
-for i = 1:2
+for i = 1:(sim.T/sim.dt)
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
 end
 

@@ -48,7 +48,7 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     tau2 =  epsCheck(asin(param.sprayer.l2 * sin(pi - control.sprayer.beta) / diagSprayer));
 
     % straight through kink (kinkX, kinkX) and axis (axisX, axisY)
-    if (sprayer.kinkX == sprayer.axisX && sprayer.kinkY == sprayer.axisY)
+    if (param.sprayer.l3 == 0)
         % special case, when l3 = 0
 
         % calculate slope m from beta
@@ -97,11 +97,13 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     diagAngle = atan2((sprayer.hitchY - sprayer.axisY) , ...
                       (sprayer.hitchX - sprayer.axisX));
 
-    sprayer.kinkX = sprayer.hitchX - param.sprayer.l2 * cos(diagAngle + tau1);
-    sprayer.kinkY = sprayer.hitchY - param.sprayer.l2 * sin(diagAngle + tau1);
+    sprayer.kinkX = sprayer.hitchX - param.sprayer.l2 * cos(diagAngle - tau1);
+    sprayer.kinkY = sprayer.hitchY - param.sprayer.l2 * sin(diagAngle - tau1);
 
     sprayer.psi = atan((sprayer.axisY - sprayer.kinkY) / ...
                        (sprayer.axisX - sprayer.kinkX));
+                   
+    sprayer.alpha = tractor.psi - sprayer.psi;
 
     %% plot
 
