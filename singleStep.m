@@ -81,8 +81,8 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     y(1) = (c + tractor.hitchX*m + tractor.hitchY*m^2 + m*(- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2))/(m^2 + 1);
     y(2) = (c + tractor.hitchX*m + tractor.hitchY*m^2 - m*(- c^2 - 2*c*tractor.hitchX*m + 2*c*tractor.hitchY - tractor.hitchX^2*m^2 + 2*tractor.hitchX*tractor.hitchY*m - tractor.hitchY^2 + m^2*diagSprayer^2 + diagSprayer^2)^(1/2))/(m^2 + 1);
     
-    if (sqrt((sprayer.axisX - x(1)) + (sprayer.axisY - y(1))^2) > ...
-        sqrt((sprayer.axisX - x(2)) + (sprayer.axisY - y(2))^2))
+    if (sqrt(abs(sprayer.axisX - x(1))^2 + abs(sprayer.axisY - y(1))^2) < ...
+        sqrt(abs(sprayer.axisX - x(2))^2 + abs(sprayer.axisY - y(2))^2))
         
         sprayer.axisX = x(1);
         sprayer.axisY = y(1);
