@@ -4,7 +4,9 @@ function animation(flag, control, tractor, sprayer)
 % =============================================================
 switch flag,
   case 0,                                                
-    animationInit;
+    animationInit();
+    animationTractor(control, tractor);
+    animationSprayer(control, sprayer);
   case 1,                                               
     animationTractor(control, tractor);
     animationSprayer(control, sprayer);

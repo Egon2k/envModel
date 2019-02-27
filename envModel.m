@@ -10,7 +10,7 @@ control.sprayer.beta            = -25 *  pi/180;
 
 %% parameter
 
-param.tractor.steeringAngleInit = 0 * pi/180;
+param.tractor.steeringAngleInit = control.tractor.steeringAngle;
 param.tractor.wheelbase         = 6;                % [m]
 param.tractor.hitchLength       = 0.72;             % [m]
 param.tractor.psiInit           = 0 * pi/180;
