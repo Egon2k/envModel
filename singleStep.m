@@ -106,11 +106,6 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
 
     sprayer.alpha = tractor.psi - sprayer.psi;
 
-    %% plot
-
-    animationTractor(tractor);
-    animationSprayer(sprayer);
-
     %% set outputs
 
     tractorOut = tractor;
