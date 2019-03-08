@@ -35,6 +35,8 @@ function animationInit()
 end
 
 function animationTractor(control, tractor)
+	figure(1);
+
     global lineTractor ...
            lineTractorHitch ...
            lineTractorSteer;
@@ -63,6 +65,8 @@ end
 
 
 function animationSprayer(control, sprayer)
+    figure(1);
+
     global lineSprayerDrawbar lineSprayer;
 
     xData = [sprayer.hitchX, sprayer.kinkX];
