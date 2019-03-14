@@ -23,8 +23,9 @@ function animationInit()
            lineSprayerDrawbar ...
            lineSprayer;
 
-    figure(1)
-    axis([-43 43 -45 5]);
+    figure(1);
+    axis([-25 40 -50 15]);
+    axis square;
     hold on;
     
     lineTractor        = line('LineWidth',2,'Color','red');

@@ -2,31 +2,32 @@ clear all;
 close all;
 clc
 
-%% control
 
-control.tractor.steeringAngle   = -20 * pi/180;
-control.tractor.frontWheelV     = 10;               % [m/s]
-control.sprayer.beta            = -25 *  pi/180;
-
-%% parameter
-
-param.tractor.steeringAngleInit = control.tractor.steeringAngle;
+% tractor parameter
+param.tractor.steeringAngleInit = 0;
 param.tractor.wheelbase         = 6;                % [m]
 param.tractor.hitchLength       = 0.72;             % [m]
-param.tractor.psiInit           = 0 * pi/180;
+param.tractor.psiInit           = 0;%-10 * pi/180;
 
+%% control
+radius                          = 10;               %[m]
+control.tractor.steeringAngle   = -atan(param.tractor.wheelbase/radius);
+control.tractor.frontWheelV     = 10;               % [m/s]
+control.sprayer.beta            = 0;%15 *  pi/180;
+
+
+%% sprayer parameter
 param.sprayer.l2                = 5.5;              % {m]
-param.sprayer.l3                = 2;                % {m]
+param.sprayer.l3                = 0.001;            % {m]
 
-param.sprayer.alphaInit         = 10 * pi/180;         % angle between tractor and sprayer
+param.sprayer.alphaInit         = 0 * pi/180;         % angle between tractor and sprayer
 param.sprayer.betaInit          = control.sprayer.beta; % kink angle
 
 param.sprayer.psiInit           = 0 * pi/180;
 
-
 %% simulation
 sim.dt                          = 0.1;              % sampling rate in [s]
-sim.T                           = 4;                % simulated time in [s]
+sim.T                           = 10;               % simulated time in [s]
 
 %% init
 
@@ -90,14 +91,5 @@ for i = 1:(sim.T/sim.dt)
     animation(1, control, tractor, sprayer);
     pause(sim.dt);
 end
-
-
-
-
-
-
-
-
-
 
 
