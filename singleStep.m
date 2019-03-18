@@ -4,10 +4,6 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
 
     dPsiTractor = asin(deltaS * sin(pi - control.tractor.steeringAngle) / param.tractor.wheelbase);
 
-%     dpsiSprayer = asin(param.tractor.hitchLength * sin(dPsiTractor) / param.sprayer.l2);
-%
-%     phi0 = tractor.psi - sprayer.psi;
-
     %% calculation
 
     % tractor

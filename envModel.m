@@ -18,7 +18,7 @@ control.sprayer.beta            = 0;%15 *  pi/180;
 
 %% sprayer parameter
 param.sprayer.l2                = 5.5;              % {m]
-param.sprayer.l3                = 0.001;            % {m]
+param.sprayer.l3                = 0;            % {m]
 
 param.sprayer.alphaInit         = 0 * pi/180;         % angle between tractor and sprayer
 param.sprayer.betaInit          = control.sprayer.beta; % kink angle
@@ -84,11 +84,31 @@ sprayer.alpha           = param.sprayer.alphaInit;
 
 animation(0, control, tractor, sprayer);
 
+
+%% track
+tracksize = 20;
+track = zeros(2,tracksize);
+
 %% calculation
 
 for i = 1:(sim.T/sim.dt)
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
     animation(1, control, tractor, sprayer);
+    
+    new_x = abs(param.sprayer.l2 * cos(control.sprayer.beta)) + ...
+            abs(param.tractor.hitchLength * cos(control.sprayer.beta + sprayer.alpha)); 
+    new_y = abs(param.sprayer.l2 * sin(control.sprayer.beta)) + ...
+            abs(param.tractor.hitchLength * sin(control.sprayer.beta + sprayer.alpha));
+    
+    % rotate track array
+    % todo
+        
+    % shift and add new point
+    track = track(:,2:end);
+    track(1,end+1) = new_x;
+    track(2,end)   = new_y;
+    
+    
     pause(sim.dt);
 end
 
