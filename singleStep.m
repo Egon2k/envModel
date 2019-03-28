@@ -9,6 +9,14 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     % tractor
 
     tractor.psi = tractor.psi + dPsiTractor;
+    
+    if (tractor.psi >  pi)
+        tractor.psi = tractor.psi - 2*pi;
+    end
+    
+    if (tractor.psi < -pi)
+        tractor.psi = tractor.psi + 2*pi;
+    end
 
     %front
     tractor.frontX = tractor.frontX + ...
@@ -97,10 +105,10 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
         sprayer.psi = diagAngle;
     else
         sprayer.psi = atan((sprayer.axisY - sprayer.kinkY) / ...
-                       (sprayer.axisX - sprayer.kinkX));
+                           (sprayer.axisX - sprayer.kinkX));
     end
 
-    sprayer.alpha = tractor.psi - sprayer.psi;
+    sprayer.alpha = mod(tractor.psi - sprayer.psi, pi);
 
     %% set outputs
 

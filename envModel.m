@@ -95,21 +95,13 @@ for i = 1:(sim.T/sim.dt)
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
     animation(1, control, tractor, sprayer);
     
-    new_x = abs(param.sprayer.l2 * cos(control.sprayer.beta)) + ...
-            abs(param.tractor.hitchLength * cos(control.sprayer.beta + sprayer.alpha)); 
-    new_y = abs(param.sprayer.l2 * sin(control.sprayer.beta)) + ...
-            abs(param.tractor.hitchLength * sin(control.sprayer.beta + sprayer.alpha));
+    figure(2);
+    hold on;
+    plot(i,sprayer.alpha*180/pi,'gx');
+%     plot(i,tractor.psi*180/pi,'bo');
+%     plot(i,sprayer.psi*180/pi,'ro');
     
-    % rotate track array
-    % todo
-        
-    % shift and add new point
-    track = track(:,2:end);
-    track(1,end+1) = new_x;
-    track(2,end)   = new_y;
-    
-    
-    pause(sim.dt);
+    pause(sim.dt/2);
 end
 
 
