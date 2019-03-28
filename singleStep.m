@@ -42,6 +42,8 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
                      sin(tractor.psi);
 
     % sprayer
+    
+    psiSprayerOld = sprayer.psi;
 
     % diagonal plane between old axis and old hitch position
     diagSprayer = sqrt(param.sprayer.l2^2 + param.sprayer.l3^2 ...
@@ -109,6 +111,8 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     end
 
     sprayer.alpha = mod(tractor.psi - sprayer.psi, pi);
+    
+    sprayer.dpsi = mod(psiSprayerOld - sprayer.psi, pi);
 
     %% set outputs
 
