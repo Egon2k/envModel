@@ -18,7 +18,7 @@ control.sprayer.beta            = 0;%15 *  pi/180;
 
 %% sprayer parameter
 param.sprayer.l2                = 5.5;              % {m]
-param.sprayer.l3                = 0;            % {m]
+param.sprayer.l3                = 0;                % {m]
 
 param.sprayer.alphaInit         = 0 * pi/180;         % angle between tractor and sprayer
 param.sprayer.betaInit          = control.sprayer.beta; % kink angle
