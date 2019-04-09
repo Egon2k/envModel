@@ -84,6 +84,8 @@ sprayer.alpha           = param.sprayer.alphaInit;
 
 sprayer.dpsi            = 0;
 
+sprayer.ds              = 0;
+
 animation(0, control, tractor, sprayer);
 
 
