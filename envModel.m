@@ -33,12 +33,7 @@ sim.T                           = 10;               % simulated time in [s]
 [tractor, sprayer] = initStep(param);
 animation(0, control, tractor, sprayer);
 
-%% track
-tracksize = 20;
-track = zeros(2,tracksize);
-
 %% calculation
-
 for i = 1:(sim.T/sim.dt)
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
     animation(1, control, tractor, sprayer);
