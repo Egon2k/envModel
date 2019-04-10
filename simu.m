@@ -27,7 +27,7 @@ for iterateAlpha = -30:10:30
     index = 1;
     
     param.sprayer.alphaInit         = iterateAlpha * pi/180;       % angle between tractor and sprayer
-    param.sprayer.betaInit          = -10 * pi/180;       % kink angle
+    param.sprayer.betaInit          = 0 * pi/180;       % kink angle
     param.sprayer.psiInit           = 10 * pi/180;
     
     for steering = -45:1:45
@@ -88,6 +88,6 @@ for iterateAlpha = -30:10:30
 end
 
 figure(3)
-fittingCurve = polyfit(x,hitchDirection,5)
+fittingCurve = polyfit(x,hitchDirection,3);
 plot(x,polyval(fittingCurve,x));
 %fprintf('%d * x^3 + %d * x^2 + %d * x^1 + %d\n', fittingCurve(4), fittingCurve(3), fittingCurve(2), fittingCurve(1));
