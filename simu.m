@@ -2,7 +2,7 @@ clear all
 
 
 %% simulation
-sim.dt                          = 0.1;              % sampling rate in [s]
+sim.dt                          = 0.001;            % sampling rate in [s]
 sim.T                           = 10;               % simulated time in [s]
 
 % tractor parameter
@@ -28,12 +28,12 @@ for iterateAlpha = -30:10:30
     
     param.sprayer.alphaInit         = iterateAlpha * pi/180;       % angle between tractor and sprayer
     param.sprayer.betaInit          = 0 * pi/180;       % kink angle
-    param.sprayer.psiInit           = 10 * pi/180;
+    param.sprayer.psiInit           = 0 * pi/180;
     
     for steering = -45:1:45
         % control
         control.tractor.steeringAngle   = steering*pi/180;
-        control.tractor.frontWheelV     = 10;           % [m/s]
+        control.tractor.frontWheelV     = 3;           % [m/s]
         control.sprayer.beta            = param.sprayer.betaInit;
 
         figure(1);
@@ -71,17 +71,17 @@ for iterateAlpha = -30:10:30
 
         index = index + 1;
 
-        figure(2);
-        hold on;
-        plot(x,hitchDistance,'r');
-        plot(x,distarray,'b');
-
-        figure(3);
-        hold on;
-        plot(x,hitchDirection,'g.');
-
         fprintf('#');
     end
+    
+    figure(2);
+    hold on;
+    plot(x,hitchDistance,'r');
+    plot(x,distarray,'b');
+
+    figure(3);
+    hold on;
+    plot(x,hitchDirection);
     
     fprintf('\n');
     pause(0.001);
