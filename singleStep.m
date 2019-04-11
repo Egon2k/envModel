@@ -9,11 +9,11 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     % tractor
 
     tractor.psi = tractor.psi + dPsiTractor;
-    
+
     if (tractor.psi >  pi)
         tractor.psi = tractor.psi - 2*pi;
     end
-    
+
     if (tractor.psi < -pi)
         tractor.psi = tractor.psi + 2*pi;
     end
@@ -42,7 +42,7 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
                      sin(tractor.psi);
 
     % sprayer
-    
+
     psiSprayerOld = sprayer.psi;
     axisXSprayerOld = sprayer.axisX;
     axisYSprayerOld = sprayer.axisY;
@@ -58,8 +58,8 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     % straight through kink (kinkX, kinkX) and axis (axisX, axisY)
     if (param.sprayer.l3 == 0)
         % l3 == 0 (wheelsteer)
-        A = [sprayer.kinkX 1; (sprayer.axisX+cos(sprayer.psi)) 1];
-        b = [sprayer.kinkY  ; (sprayer.axisY+sin(sprayer.psi))  ];
+        A = [sprayer.kinkX 1; sprayer.kinkX + cos(sprayer.psi + control.sprayer.beta) 1];
+        b = [sprayer.kinkY  ; sprayer.kinkY + sin(sprayer.psi + control.sprayer.beta)  ];
 
         result = A\b;       % solving the linear system
 
@@ -120,6 +120,7 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
                                param.sprayer.l2^2 - ...
                                distTracRearSprayKink^2) / ...
                               (2 * param.tractor.hitchLength * param.sprayer.l2));
+    sprayer.alpha = -sprayer.alpha;
 
     sprayer.dpsi = mod(psiSprayerOld - sprayer.psi, pi);
 
