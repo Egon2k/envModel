@@ -30,18 +30,29 @@ sim.T                           = 4;                % simulated time in [s]
 [tractor, sprayer] = initStep(param);
 animation(0, control, tractor, sprayer);
 
+distance = 0;
+i_start = 0;
+
 %% calculation
 for i = 1:(sim.T/sim.dt)
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
-    animation(1, control, tractor, sprayer);
 
+    distance = distance + sprayer.ds;
+    
+    if (distance > 0.2)
+        
+        distance = 0;
+        animation(1, control, tractor, sprayer);
+        pause((i-i_start) * sim.dt/4);
+        i_start = i;
+    end
+    
 %     figure(2);
 %     hold on;
 %     plot(i,sprayer.alpha*180/pi,'gx');
 %     plot(i,tractor.psi*180/pi,'bo');
 %     plot(i,sprayer.psi*180/pi,'ro');
 
-    pause(sim.dt/2);
 end
 
 
