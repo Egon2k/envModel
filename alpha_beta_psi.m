@@ -19,7 +19,8 @@ param.sprayer.l3                = 0;                % {m]
 %% control parameter
 control.tractor.steeringAngle   = 0*pi/180;
 control.tractor.frontWheelV     = 2;
-
+figure(1);
+clf;
 figure(2)
 clf;
 figure(3)
@@ -41,9 +42,6 @@ for alphaSet = -30:10:30
         animation(0, control, tractor, sprayer);
         
         psiOld = sprayer.psi;
-        
-        figure(1);
-        clf;
         distance = 0;
 
         %% calculation
