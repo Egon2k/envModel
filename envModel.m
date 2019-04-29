@@ -43,18 +43,18 @@ for i = 1:(sim.T/sim.dt)
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
 
     distance = distance + sprayer.ds;
-    
+
     if (distance > 0.2)
-        
+
         distance = 0;
         animation(1, control, tractor, sprayer);
-        
+
         delay(delayIndex) = sprayer.alpha;
         delayIndex = delayIndex + 1;
         if (delayIndex > TRANS_DELAY)
             delayIndex = delayIndex - TRANS_DELAY;
         end
-        
+
         closestIndex = delayIndex - 12;
         if (closestIndex < 1)
             closestIndex = closestIndex + TRANS_DELAY;
@@ -73,8 +73,8 @@ for i = 1:(sim.T/sim.dt)
 %     if i == 1000  control.tractor.steeringAngle = 10 * pi/180; end
 %     if i == 3000  control.tractor.steeringAngle = 30 * pi/180; end
 %     if i == 4000  control.tractor.steeringAngle = 40 * pi/180; end
-%     
-    
+%
+
     figure(2);
     hold on;
     plot(i,sprayer.alpha*180/pi,'gx');

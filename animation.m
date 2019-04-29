@@ -3,11 +3,11 @@ function animation(flag, control, tractor, sprayer)
 % Autor: Christian Fröschle
 % =============================================================
 switch flag,
-  case 0,                                                
+  case 0,
     animationInit();
     animationTractor(control, tractor);
     animationSprayer(control, sprayer);
-  case 1,                                               
+  case 1,
     animationTractor(control, tractor);
     animationSprayer(control, sprayer);
   otherwise
@@ -27,7 +27,7 @@ function animationInit()
     axis([-25 40 -50 15]);
     axis square;
     hold on;
-    
+
     lineTractor        = line('LineWidth',2,'Color','red');
     lineTractorHitch   = line('LineWidth',2,'Color','black');
     lineTractorSteer   = line('LineWidth',2,'Color','black');
@@ -41,20 +41,20 @@ function animationTractor(control, tractor)
     global lineTractor ...
            lineTractorHitch ...
            lineTractorSteer;
-    
+
     xData = [tractor.frontX, tractor.rearX];
     yData = [tractor.frontY, tractor.rearY];
     set(lineTractor,'xData',xData,'yData',yData);
-    
+
     xData = [tractor.rearX, tractor.hitchX];
     yData = [tractor.rearY, tractor.hitchY];
     set(lineTractorHitch,'xData',xData,'yData',yData);
-    
+
     xData = [tractor.frontX, tractor.frontX + cos(tractor.psi + control.tractor.steeringAngle)*1];
     yData = [tractor.frontY, tractor.frontY + sin(tractor.psi + control.tractor.steeringAngle)*1];
     set(lineTractorSteer,'xData',xData,'yData',yData);
-    
-    
+
+
 %     plot( tractor.frontX, tractor.frontY, 'ro');     % front axis
 %     plot([tractor.frontX tractor.rearX], ...
 %          [tractor.frontY tractor.rearY], 'r');      % wheelbase line
@@ -73,10 +73,10 @@ function animationSprayer(control, sprayer)
     xData = [sprayer.hitchX, sprayer.kinkX];
     yData = [sprayer.hitchY, sprayer.kinkY];
     set(lineSprayerDrawbar,'xData',xData,'yData',yData);
-    
+
     xData = [sprayer.kinkX, sprayer.axisX];
     yData = [sprayer.kinkY, sprayer.axisY];
-    set(lineSprayer,'xData',xData,'yData',yData);    
+    set(lineSprayer,'xData',xData,'yData',yData);
 
 
 %     plot([sprayer.hitchX sprayer.kinkX], ...

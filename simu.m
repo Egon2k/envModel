@@ -25,11 +25,11 @@ pause(0.001);
 
 for iterateAlpha = -30:10:30
     index = 1;
-    
+
     param.sprayer.alphaInit         = iterateAlpha * pi/180;       % angle between tractor and sprayer
     param.sprayer.betaInit          = 0 * pi/180;       % kink angle
     param.sprayer.psiInit           = 0 * pi/180;
-    
+
     for steering = -45:1:45
         % control
         control.tractor.steeringAngle   = steering*pi/180;
@@ -73,7 +73,7 @@ for iterateAlpha = -30:10:30
 
         fprintf('#');
     end
-    
+
     figure(2);
     hold on;
     plot(x,hitchDistance,'r');
@@ -82,7 +82,7 @@ for iterateAlpha = -30:10:30
     figure(3);
     hold on;
     plot(x,hitchDirection);
-    
+
     fprintf('\n');
     pause(0.001);
 end
