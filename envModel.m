@@ -24,7 +24,7 @@ param.sprayer.betaInit          = 0 * pi/180;       % kink angle
 
 %% simulation
 sim.dt                          = 0.01;             % sampling rate in [s]
-sim.T                           = 20;                % simulated time in [s]
+sim.T                           = 30;                % simulated time in [s]
 
 %% init
 [tractor, sprayer] = initStep(param);
@@ -59,17 +59,21 @@ for i = 1:(sim.T/sim.dt)
         if (closestIndex < 1)
             closestIndex = closestIndex + TRANS_DELAY;
         end
-        control.sprayer.beta = 0.70*delay(closestIndex);        
-        
-        
+        control.sprayer.beta = 0.81*delay(closestIndex);
+
+
         pause((i-i_start) * sim.dt/4);
         i_start = i;
     end
 
-    if i > 500 && i < 1000 
+    if i > 500 && i < 750
         control.tractor.steeringAngle = control.tractor.steeringAngle + 0.1 * pi/180;
     end
     
+    if i > 1000 && i < 1250
+        control.tractor.steeringAngle = control.tractor.steeringAngle - 0.1 * pi/180;
+    end
+
 %     if i == 1000  control.tractor.steeringAngle = 10 * pi/180; end
 %     if i == 3000  control.tractor.steeringAngle = 30 * pi/180; end
 %     if i == 4000  control.tractor.steeringAngle = 40 * pi/180; end
