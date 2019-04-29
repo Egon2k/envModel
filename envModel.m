@@ -33,7 +33,7 @@ animation(0, control, tractor, sprayer);
 distance = 0;
 i_start = 0;
 
-TRANS_DELAY = 10;
+TRANS_DELAY = 20;
 delay = zeros(1,TRANS_DELAY+1);
 delayIndex = 1;
 closestIndex = 0;
@@ -55,21 +55,25 @@ for i = 1:(sim.T/sim.dt)
             delayIndex = delayIndex - TRANS_DELAY;
         end
         
-        closestIndex = delayIndex - 4;
+        closestIndex = delayIndex - 12;
         if (closestIndex < 1)
             closestIndex = closestIndex + TRANS_DELAY;
         end
-        control.sprayer.beta = 0.85*delay(closestIndex);        
+        control.sprayer.beta = 0.70*delay(closestIndex);        
         
         
         pause((i-i_start) * sim.dt/4);
         i_start = i;
     end
+
+    if i > 500 && i < 1000 
+        control.tractor.steeringAngle = control.tractor.steeringAngle + 0.1 * pi/180;
+    end
     
-    if i == 1000  control.tractor.steeringAngle = 10 * pi/180; end
-    if i == 3000  control.tractor.steeringAngle = 30 * pi/180; end
-    if i == 4000  control.tractor.steeringAngle = 40 * pi/180; end
-    
+%     if i == 1000  control.tractor.steeringAngle = 10 * pi/180; end
+%     if i == 3000  control.tractor.steeringAngle = 30 * pi/180; end
+%     if i == 4000  control.tractor.steeringAngle = 40 * pi/180; end
+%     
     
     figure(2);
     hold on;
