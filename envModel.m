@@ -52,7 +52,7 @@ for i = 1:(sim.T/sim.dt)
         delay(delayIndex) = sprayer.alpha;
         delayIndex = delayIndex + 1;
         if (delayIndex > TRANS_DELAY)
-            delayIndex = delayIndex - TRANS_DELAY + 1;
+            delayIndex = delayIndex - TRANS_DELAY;
         end
         
         closestIndex = delayIndex - 4;
