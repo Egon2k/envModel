@@ -112,15 +112,7 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
                            (sprayer.axisX - sprayer.kinkX));
     end
 
-    % distance between tractor rear axis and sprayer kink
-    distTracRearSprayKink = sqrt((tractor.rearX - sprayer.kinkX)^2 +...
-                                 (tractor.rearY - sprayer.kinkY)^2);
-
-    sprayer.alpha = pi - acos((distTracRearSprayKink^2 - ...
-                               param.sprayer.l2^2 - ...
-                               param.tractor.hitchLength^2) / ...
-                              (-2 * param.tractor.hitchLength * param.sprayer.l2));
-    %sprayer.alpha = -sprayer.alpha;
+    sprayer.alpha = -(tractor.psi - sprayer.psi);
 
     sprayer.dpsi = mod(psiSprayerOld - sprayer.psi, pi);
 
