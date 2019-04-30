@@ -10,7 +10,7 @@ param.tractor.psiInit           = 0 * pi/180;
 %% control
 radius                          = 15;               %[m]
 control.tractor.steeringAngle   = -atan(param.tractor.wheelbase/radius);
-control.tractor.frontWheelV     = 2;                % [m/s]
+control.tractor.frontWheelV     = 2.5;              % [m/s]
 control.sprayer.beta            = 0 *  pi/180;
 
 
@@ -23,7 +23,7 @@ param.sprayer.betaInit          = 0 * pi/180;       % kink angle
 
 %% simulation
 sim.dt                          = 0.01;             % sampling rate in [s]
-sim.T                           = 50;                % simulated time in [s]
+sim.T                           = 50;               % simulated time in [s]
 
 figure(1);
 clf;
@@ -35,7 +35,6 @@ clf;
 animation(0, control, tractor, sprayer);
 
 distance = 0;
-i_start = 0;
 
 TRANS_DELAY = 40;
 delay = zeros(1,TRANS_DELAY+1);
@@ -65,9 +64,7 @@ for i = 1:(sim.T/sim.dt)
         end
         control.sprayer.beta = 0.81*delay(closestIndex);
 
-
         drawnow
-        i_start = i;
         
         figure(2);
         hold on;
