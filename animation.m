@@ -2,6 +2,17 @@ function animation(flag, control, tractor, sprayer)
 % S-function animaiton using the figure command
 % Autor: Christian Fröschle
 % =============================================================
+ZOOM_LEVEL = 10; % values != 0 activate follow-me mode
+
+figure(1);
+
+if ZOOM_LEVEL ~= 0
+    axis([tractor.rearX - ZOOM_LEVEL tractor.rearX + ZOOM_LEVEL ...
+          tractor.rearY - ZOOM_LEVEL tractor.rearY + ZOOM_LEVEL]);
+else
+    axis([-25 40 -50 15]);
+end
+
 switch flag,
   case 0,
     animationInit();
@@ -21,10 +32,9 @@ function animationInit()
            lineTractorHitch ...
            lineTractorSteer ...
            lineSprayerDrawbar ...
-           lineSprayer;
+           lineSprayer ...
+           lineSprayerReplace;
 
-    figure(1);
-    axis([-25 40 -50 15]);
     axis square;
     hold on;
 
@@ -33,12 +43,12 @@ function animationInit()
     lineTractorSteer   = line('LineWidth',2,'Color','black');
     lineSprayerDrawbar = line('LineWidth',2,'Color','cyan');
     lineSprayer        = line('LineWidth',2,'Color','cyan');
+    lineSprayerReplace = line('LineWidth',2,'Color','blue','LineStyle','--');
+    
 end
 
 function animationTractor(control, tractor)
-	figure(1);
-
-    global lineTractor ...
+	global lineTractor ...
            lineTractorHitch ...
            lineTractorSteer;
 
@@ -54,7 +64,6 @@ function animationTractor(control, tractor)
     yData = [tractor.frontY, tractor.frontY + sin(tractor.psi + control.tractor.steeringAngle)*1];
     set(lineTractorSteer,'xData',xData,'yData',yData);
 
-
 %     plot( tractor.frontX, tractor.frontY, 'ro');     % front axis
 %     plot([tractor.frontX tractor.rearX], ...
 %          [tractor.frontY tractor.rearY], 'r');      % wheelbase line
@@ -66,9 +75,9 @@ end
 
 
 function animationSprayer(control, sprayer)
-    figure(1);
-
-    global lineSprayerDrawbar lineSprayer;
+    global lineSprayerDrawbar ...
+           lineSprayer ...
+           lineSprayerReplace;
 
     xData = [sprayer.hitchX, sprayer.kinkX];
     yData = [sprayer.hitchY, sprayer.kinkY];
@@ -77,7 +86,10 @@ function animationSprayer(control, sprayer)
     xData = [sprayer.kinkX, sprayer.axisX];
     yData = [sprayer.kinkY, sprayer.axisY];
     set(lineSprayer,'xData',xData,'yData',yData);
-
+    
+    xData = [sprayer.hitchX, sprayer.hitchX - 10 * cos(sprayer.psi + sprayer.alpha + control.sprayer.beta)];
+    yData = [sprayer.hitchY, sprayer.hitchY - 10 * sin(sprayer.psi + sprayer.alpha + control.sprayer.beta)];
+    set(lineSprayerReplace,'xData',xData,'yData',yData);
 
 %     plot([sprayer.hitchX sprayer.kinkX], ...
 %          [sprayer.hitchY sprayer.kinkY], 'g');      % drawbar line
