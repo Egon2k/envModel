@@ -1,5 +1,4 @@
 clear all;
-close all;
 clc
 
 % tractor parameter
@@ -24,7 +23,12 @@ param.sprayer.betaInit          = 0 * pi/180;       % kink angle
 
 %% simulation
 sim.dt                          = 0.01;             % sampling rate in [s]
-sim.T                           = 30;                % simulated time in [s]
+sim.T                           = 50;                % simulated time in [s]
+
+figure(1);
+clf;
+figure(2);
+clf;
 
 %% init
 [tractor, sprayer] = initStep(param);
@@ -33,7 +37,7 @@ animation(0, control, tractor, sprayer);
 distance = 0;
 i_start = 0;
 
-TRANS_DELAY = 20;
+TRANS_DELAY = 40;
 delay = zeros(1,TRANS_DELAY+1);
 delayIndex = 1;
 closestIndex = 0;
@@ -62,8 +66,13 @@ for i = 1:(sim.T/sim.dt)
         control.sprayer.beta = 0.81*delay(closestIndex);
 
 
-        pause((i-i_start) * sim.dt/4);
+        drawnow
         i_start = i;
+        
+        figure(2);
+        hold on;
+        plot(i,sprayer.alpha*180/pi,'gx');
+        plot(i,control.sprayer.beta*180/pi,'bo');
     end
 
     if i > 500 && i < 750
@@ -79,11 +88,7 @@ for i = 1:(sim.T/sim.dt)
 %     if i == 4000  control.tractor.steeringAngle = 40 * pi/180; end
 %
 
-    figure(2);
-    hold on;
-    plot(i,sprayer.alpha*180/pi,'gx');
-    plot(i,control.sprayer.beta*180/pi,'bo');
-%     plot(i,sprayer.psi*180/pi,'ro');
+    
 
 end
 
