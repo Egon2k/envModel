@@ -113,6 +113,14 @@ function [tractorOut, sprayerOut] = singleStep(param, control, sim, tractor, spr
     end
 
     sprayer.alpha = -(tractor.psi - sprayer.psi);
+    
+    if sprayer.alpha < -pi
+        sprayer.alpha = sprayer.alpha + 2*pi;
+    end
+    if sprayer.alpha >  pi
+        sprayer.alpha = sprayer.alpha - 2*pi;
+    end
+    
 
     sprayer.dpsi = mod(psiSprayerOld - sprayer.psi, pi);
 
