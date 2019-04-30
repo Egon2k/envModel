@@ -9,7 +9,7 @@ param.tractor.psiInit           = 0 * pi/180;
 
 %% control
 radius                          = 15;               %[m]
-control.tractor.steeringAngle   = -atan(param.tractor.wheelbase/radius);
+control.tractor.steeringAngle   = 0;%-atan(param.tractor.wheelbase/radius);
 control.tractor.frontWheelV     = 2.5;              % [m/s]
 control.sprayer.beta            = 0 *  pi/180;
 
@@ -72,17 +72,18 @@ for i = 1:(sim.T/sim.dt)
         plot(i,control.sprayer.beta*180/pi,'bo');
     end
 
-    if i > 500 && i < 750
-        control.tractor.steeringAngle = control.tractor.steeringAngle + 0.1 * pi/180;
+    if i == 10/sim.dt
+        control.tractor.steeringAngle = -35 * pi/180;
     end
-    
-    if i > 1000 && i < 1250
-        control.tractor.steeringAngle = control.tractor.steeringAngle - 0.1 * pi/180;
+    if i == 20/sim.dt
+        control.tractor.steeringAngle = 0;
     end
-
-%     if i == 1000  control.tractor.steeringAngle = 10 * pi/180; end
-%     if i == 3000  control.tractor.steeringAngle = 30 * pi/180; end
-%     if i == 4000  control.tractor.steeringAngle = 40 * pi/180; end
+    if i == 30/sim.dt
+        control.tractor.steeringAngle =  35 * pi/180;
+    end
+    if i == 40/sim.dt
+        control.tractor.steeringAngle = 0;
+    end
 %
 
     
