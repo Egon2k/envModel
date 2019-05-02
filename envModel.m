@@ -41,6 +41,8 @@ delay = zeros(1,TRANS_DELAY+1);
 delayIndex = 1;
 closestIndex = 0;
 
+intBeta = 0;
+
 %% calculation
 for i = 1:(sim.T/sim.dt)
     [tractor, sprayer] = singleStep(param, control, sim, tractor, sprayer);
@@ -70,6 +72,8 @@ for i = 1:(sim.T/sim.dt)
         hold on;
         plot(i,sprayer.alpha*180/pi,'gx');
         plot(i,control.sprayer.beta*180/pi,'bo');
+        plot(i,(intBeta)*180/pi,'rx');
+        intBeta = intBeta + 0.01*control.sprayer.beta;
     end
 
     if i == 10/sim.dt
