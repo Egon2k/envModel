@@ -60,7 +60,7 @@ for i = 1:(sim.T/sim.dt)
             delayIndex = delayIndex - TRANS_DELAY;
         end
 
-        closestIndex = delayIndex - 12;
+        closestIndex = delayIndex - 13;
         if (closestIndex < 1)
             closestIndex = closestIndex + TRANS_DELAY;
         end
@@ -76,22 +76,25 @@ for i = 1:(sim.T/sim.dt)
         intBeta = intBeta + 0.01*control.sprayer.beta;
     end
 
-    if i == 10/sim.dt
-        control.tractor.steeringAngle = -35 * pi/180;
+    if mod(i,10/sim.dt) == 0
+        control.tractor.steeringAngle = (rand - 0.5) * 40 * pi/180;
+        control.tractor.frontWheelV   = rand * 3 + 1;
+        fprintf('SteeringAngle: %0.3f°\n', control.tractor.steeringAngle * 180 / pi);
+        fprintf('FrontWheelVel: %0.3f m/s\n', control.tractor.frontWheelV);
     end
-    if i == 20/sim.dt
-        control.tractor.steeringAngle = 0;
-    end
-    if i == 30/sim.dt
-        control.tractor.steeringAngle =  35 * pi/180;
-    end
-    if i == 40/sim.dt
-        control.tractor.steeringAngle = 0;
-    end
-%
-
     
-
+%     if i == 10/sim.dt
+%         control.tractor.steeringAngle = -35 * pi/180;
+%     end
+%     if i == 20/sim.dt
+%         control.tractor.steeringAngle = 0;
+%     end
+%     if i == 30/sim.dt
+%         control.tractor.steeringAngle = +35 * pi/180;
+%     end
+%     if i == 40/sim.dt
+%         control.tractor.steeringAngle = 0;
+%     end
 end
 
 
