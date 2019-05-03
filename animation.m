@@ -2,7 +2,7 @@ function animation(flag, control, tractor, sprayer)
 % S-function animaiton using the figure command
 % Autor: Christian Fröschle
 % =============================================================
-ZOOM_LEVEL    = 10; % 0  = static view 
+ZOOM_LEVEL    =  0; % 0  = static view 
                     % >0 = activate follow-me mode
 CENTER_TARGET =  1; % 1 [default] = center on tractors rear axis
                     % 2           = center on sprayers axis
@@ -21,13 +21,13 @@ if ZOOM_LEVEL ~= 0
             axis([tractor.rearX - ZOOM_LEVEL tractor.rearX + ZOOM_LEVEL ...
                   tractor.rearY - ZOOM_LEVEL tractor.rearY + ZOOM_LEVEL]);
     end
-        
-else
-    axis([-25 40 -50 15]);
 end
 
 switch flag,
   case 0,
+    if ZOOM_LEVEL == 0
+        axis([-25 40 -50 15]);
+    end
     animationInit();
     animationTractor(control, tractor);
     animationSprayer(control, sprayer);
