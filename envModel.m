@@ -15,15 +15,15 @@ control.sprayer.beta            = 0 *  pi/180;
 
 
 %% sprayer parameter
-param.sprayer.l2                = 5.5;              % {m]
-param.sprayer.l3                = 0;                % {m]
+param.sprayer.l2                = 2.370;            % {m]
+param.sprayer.l3                = 3.055;            % {m]
 
 param.sprayer.alphaInit         = 0 * pi/180;       % angle between tractor and sprayer
 param.sprayer.betaInit          = 0 * pi/180;       % kink angle
 
 %% simulation
 sim.dt                          = 0.01;             % sampling rate in [s]
-sim.T                           = 50;               % simulated time in [s]
+sim.T                           = 40;               % simulated time in [s]
 
 figure(1);
 clf;
@@ -60,17 +60,19 @@ for i = 1:(sim.T/sim.dt)
             delayIndex = delayIndex - TRANS_DELAY;
         end
 
-        delayedIndex = delayIndex - 13;
+        delayedIndex = delayIndex - 8;
         if (delayedIndex < 1)
             delayedIndex = delayedIndex + TRANS_DELAY;
         end
-        %control.sprayer.beta = 0.77 * delay(delayedIndex);
-        control.sprayer.beta = calcAngleRatio(sprayer.alpha, ...
-                                              param.tractor.hitchLength, ...
-                                              param.sprayer.l2) * ...
-                               delay(delayedIndex);
+        control.sprayer.beta = 1 * delay(delayedIndex);
+%         control.sprayer.beta = calcAngleRatio(sprayer.alpha, ...
+%                                               param.tractor.hitchLength, ...
+%                                               param.sprayer.l2) * ...
+%                                delay(delayedIndex);
                            
         drawnow
+        
+        
         
         figure(2);
         hold on;
@@ -99,7 +101,7 @@ for i = 1:(sim.T/sim.dt)
 %     if i == 40/sim.dt
 %         control.tractor.steeringAngle = 0;
 %     end
-    
+
     if i > 5/sim.dt && i < 15/sim.dt
         control.tractor.steeringAngle = control.tractor.steeringAngle - 3.5*sim.dt * pi/180;
     end
