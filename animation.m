@@ -80,8 +80,10 @@ function animationTractor(control, tractor)
     yData = [tractor.rearLeftY, tractor.rearRightY];
     set(lineTractorRearAxle,'xData',xData,'yData',yData);
     
-    xData = [tractor.frontX, tractor.frontX + cos(tractor.psi + control.tractor.steeringAngle)*1];
-    yData = [tractor.frontY, tractor.frontY + sin(tractor.psi + control.tractor.steeringAngle)*1];
+    xData = [tractor.frontX - cos(tractor.psi + control.tractor.steeringAngle) * 0.5 , ...
+             tractor.frontX + cos(tractor.psi + control.tractor.steeringAngle) * 0.5];
+    yData = [tractor.frontY - sin(tractor.psi + control.tractor.steeringAngle) * 0.5 , ...
+             tractor.frontY + sin(tractor.psi + control.tractor.steeringAngle) * 0.5];
     set(lineTractorSteer,'xData',xData,'yData',yData);
 
 %     plot( tractor.frontX, tractor.frontY, 'ro');     % front axis
